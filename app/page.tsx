@@ -6,6 +6,7 @@ import EnhancementControls from "@/components/enhancement-controls"
 import ProcessingStatus from "@/components/processing-status"
 import ImageComparison from "@/components/image-comparison"
 import DownloadButton from "@/components/download-button"
+import { resizeImageIfNeeded } from "@/lib/image-utils"
 import { POLL_INTERVAL_MS, MAX_POLL_ATTEMPTS } from "@/lib/constants"
 import { AppState, EnhancementSettings, PredictionStatus } from "@/types"
 
@@ -101,8 +102,9 @@ export default function Home() {
       setPredictionStatus("starting")
 
       try {
+        const imageToUpload = await resizeImageIfNeeded(selectedFile)
         const formData = new FormData()
-        formData.append("image", selectedFile)
+        formData.append("image", imageToUpload)
         formData.append("scale", String(settings.scale))
         formData.append("faceEnhance", String(settings.faceEnhance))
 
