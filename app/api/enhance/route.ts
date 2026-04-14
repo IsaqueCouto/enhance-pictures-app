@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import replicate from "@/lib/replicate"
-import { ACCEPTED_TYPES, MAX_FILE_SIZE_BYTES, REPLICATE_MODEL } from "@/lib/constants"
+import { ACCEPTED_TYPES, MAX_FILE_SIZE_BYTES, REPLICATE_MODEL_VERSION } from "@/lib/constants"
 
 export const maxDuration = 30
 
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     const dataUri = `data:${file.type};base64,${base64}`
 
     const prediction = await replicate.predictions.create({
-      model: REPLICATE_MODEL,
+      version: REPLICATE_MODEL_VERSION,
       input: {
         image: dataUri,
         scale: scale,
