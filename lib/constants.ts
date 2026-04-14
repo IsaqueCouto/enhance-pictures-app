@@ -1,4 +1,4 @@
-export const REPLICATE_MODEL = "nightmareai/real-esrgan"
+export const REPLICATE_MODEL = "philz1337x/clarity-upscaler"
 
 export const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024 // 10MB
 

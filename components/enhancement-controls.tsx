@@ -86,7 +86,7 @@ export default function EnhancementControls({ onSubmit, disabled }: EnhancementC
           <div>
             <p className="text-sm text-stone-300 font-medium">Face Enhance</p>
             <p className="text-xs text-stone-600 font-mono mt-0.5">
-              Improves faces using GFPGAN
+              Boosts facial detail and clarity
             </p>
           </div>
         </label>
@@ -109,7 +109,7 @@ export default function EnhancementControls({ onSubmit, disabled }: EnhancementC
         </button>
 
         <p className="text-center text-xs text-stone-600 font-mono">
-          Processing typically takes 30–90 seconds
+          Processing typically takes 60–120 seconds
         </p>
       </div>
     </div>

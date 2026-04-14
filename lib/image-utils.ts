@@ -19,61 +19,10 @@ export async function fileToBase64DataUri(file: File): Promise<string> {
   })
 }
 
-// Real-ESRGAN on Replicate rejects images over 2,096,704 total pixels.
-// Use a slightly lower cap to stay safely under the limit.
-const MAX_PIXELS = 2_000_000
-
+// clarity-upscaler handles large images via internal tiling — no resize needed.
+// Keep the function signature so page.tsx doesn't need changes.
 export async function resizeImageIfNeeded(file: File): Promise<File> {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    const objectUrl = URL.createObjectURL(file)
-
-    img.onload = () => {
-      URL.revokeObjectURL(objectUrl)
-      const { naturalWidth: w, naturalHeight: h } = img
-      const totalPixels = w * h
-
-      if (totalPixels <= MAX_PIXELS) {
-        resolve(file)
-        return
-      }
-
-      const scale = Math.sqrt(MAX_PIXELS / totalPixels)
-      const newW = Math.floor(w * scale)
-      const newH = Math.floor(h * scale)
-
-      const canvas = document.createElement("canvas")
-      canvas.width = newW
-      canvas.height = newH
-      const ctx = canvas.getContext("2d")
-      if (!ctx) {
-        resolve(file)
-        return
-      }
-      ctx.drawImage(img, 0, 0, newW, newH)
-
-      const mimeType = file.type === "image/png" ? "image/png" : "image/jpeg"
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            resolve(file)
-            return
-          }
-          const resized = new File([blob], file.name, { type: mimeType })
-          resolve(resized)
-        },
-        mimeType,
-        0.92
-      )
-    }
-
-    img.onerror = () => {
-      URL.revokeObjectURL(objectUrl)
-      reject(new Error("Failed to load image for resizing"))
-    }
-
-    img.src = objectUrl
-  })
+  return file
 }
 
 export function formatFileSize(bytes: number): string {

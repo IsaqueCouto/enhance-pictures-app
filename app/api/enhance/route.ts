@@ -36,7 +36,13 @@ export async function POST(req: NextRequest) {
       input: {
         image: dataUri,
         scale: scale,
-        face_enhance: faceEnhance,
+        prompt: "masterpiece, best quality, highres, sharp, detailed, realistic",
+        negative_prompt: "(worst quality, low quality, normal quality:2) blur blurry noise",
+        creativity: faceEnhance ? 0.5 : 0.35,
+        resemblance: faceEnhance ? 0.5 : 0.7,
+        dynamic: faceEnhance ? 6 : 4,
+        num_inference_steps: 18,
+        sharpen: 0,
       },
     })
 
